@@ -1,0 +1,27 @@
+services:
+  # web:
+  #   build: ./app
+  #   ports:
+  #     - "8000:5000"
+  #   volumes:
+  #     - type: bind
+  #       source: ./scripts
+  #       target: /code/scripts
+  #   secrets:
+  #     - db_password
+  db:
+    container_name: sde_db
+    build: ./pgdb
+    restart: always
+    shm_size: 128mb   # look into this
+    ports:
+      - "8001:5432"
+    environment:
+      POSTGRES_USER: yaml
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt

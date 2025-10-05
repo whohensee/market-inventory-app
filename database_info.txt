@@ -1,0 +1,24 @@
+the "invTypes" table can allow us to connect typeName (eg Tritanium) with ID (ed 34)
+
+sde=# \d "invTypes"
+                         Table "public.invTypes"
+    Column     |          Type          | Collation | Nullable | Default
+---------------+------------------------+-----------+----------+---------
+ typeID        | integer                |           | not null |
+ groupID       | integer                |           |          |
+ typeName      | character varying(100) |           |          |
+ description   | text                   |           |          |
+ mass          | double precision       |           |          |
+ volume        | double precision       |           |          |
+ capacity      | double precision       |           |          |
+ portionSize   | integer                |           |          |
+ raceID        | integer                |           |          |
+ basePrice     | numeric(19,4)          |           |          |
+ published     | boolean                |           |          |
+ marketGroupID | integer                |           |          |
+ iconID        | integer                |           |          |
+ soundID       | integer                |           |          |
+ graphicID     | integer                |           |          |
+Indexes:
+    "invTypes_pkey" PRIMARY KEY, btree ("typeID")
+    "ix_invTypes_groupID" btree ("groupID")
