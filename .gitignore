@@ -1,2 +1,7 @@
 *.dmp
 secrets/
+# package.json
+devcontainer.json
+node_modules/
+package-lock.json
+.env

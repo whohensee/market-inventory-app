@@ -1,14 +1,15 @@
 services:
-  # web:
-  #   build: ./app
-  #   ports:
-  #     - "8000:5000"
-  #   volumes:
-  #     - type: bind
-  #       source: ./scripts
-  #       target: /code/scripts
-  #   secrets:
-  #     - db_password
+  web:
+    container_name: market_app
+    build: ./app
+    ports:
+      - "8000:3000"
+    volumes:
+      - type: bind
+        source: ./app/scripts
+        target: /app/scripts
+    secrets:
+      - db_password
   db:
     container_name: sde_db
     build: ./pgdb
