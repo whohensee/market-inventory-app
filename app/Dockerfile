@@ -10,5 +10,5 @@ WORKDIR /app
 # RUN pip install -r requirements.txt
 # EXPOSE 5000
 COPY . .
-RUN npm install express
+RUN npm install express pg dotenv
 CMD ["node", "app.js"]
