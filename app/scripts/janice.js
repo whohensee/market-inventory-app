@@ -24,12 +24,14 @@ const bp_name = process.argv[2];
 
 const materials = await getMaterialsFromBlueprintName(pool, bp_name);
 
+const product = await getProductIDFromBlueprintName(pool, bp_name);
+
+console.log("\n\n---------- Materials for " + bp_name + " ----------\n\n")
 for (const mat of materials) {
   console.log(mat["name"] + " " + mat["quantity"]);
 }
 
 // stick the product at the end
-const product = await getProductIDFromBlueprintName(pool, bp_name);
-console.log(await getNameFromTypeID(pool, product[0]) + " " + product[1]);
+console.log(await getNameFromTypeID(pool, product[0]) + " " + product[1] + "\n\n");
 
 await pool.end();
