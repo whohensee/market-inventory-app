@@ -6,8 +6,20 @@ services:
       - "8000:3000"
     volumes:
       - type: bind
+        source: ./app/controllers
+        target: /app/controllers
+      - type: bind
+        source: ./app/routes
+        target: /app/routes
+      - type: bind
+        source: ./app/views
+        target: /app/views
+      - type: bind
         source: ./app/scripts
         target: /app/scripts
+      - type: bind
+        source: ./app/db
+        target: /app/db
     secrets:
       - db_password
   db:

@@ -8,7 +8,9 @@ WORKDIR /app
 # COPY scripts/ scripts/
 # RUN pip install --upgrade pip
 # RUN pip install -r requirements.txt
-# EXPOSE 5000
+# EXPOSE 3000
 COPY . .
-RUN npm install express pg dotenv
-CMD ["node", "app.js"]
+RUN npm install express pg dotenv ejs express-validator
+
+# honestly the --watch doesn't seem to be working. Look into it
+CMD ["node", "app.js", "--watch"]
