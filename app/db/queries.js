@@ -1,58 +1,50 @@
 const pool = require("./pool");
 
 // each function here needs to be modified to use the nice
-// { rows } syntax 
+// { rows } syntax
 
 async function getTypeIdFromName(name) {
   const qstring =
     'SELECT "typeID" FROM "invTypes" WHERE "typeName" = \'' + name + "';";
-  //   console.log(qstring);
   const { rows } = await pool.query(qstring);
   return rows[0]["typeID"];
 }
 
-async function getNameFromTypeID(pool, id) {
+async function getNameFromTypeID(id) {
   const qstring =
     'SELECT "typeName" FROM "invTypes" WHERE "typeID" =' + id + ";";
-  //   console.log(qstring);
-  const res = await pool.query(qstring);
-  return res["rows"][0]["typeName"];
+  const { rows } = await pool.query(qstring);
+  return rows[0]["typeName"];
 }
 
-async function getProductIDFromBlueprintName(pool, name) {
-  const bpID = await getTypeIdFromName(pool, name);
+async function getProductIDFromBlueprintName(name) {
+  const bpID = await getTypeIdFromName(name);
   const qstring =
     'SELECT "productTypeID", "quantity" FROM "industryActivityProducts"' +
     ' WHERE "typeID"=' +
     bpID +
     ' AND "activityID"=1;';
-//   console.log(qstring);
-  const result1 = await pool.query(qstring);
-  const prodID = result1["rows"][0]["productTypeID"];
-  const result2 = await pool.query(qstring);
-  const prodQuant = result2["rows"][0]["quantity"];
+  const { rows1 } = await pool.query(qstring);
+  const prodID = rows1[0]["productTypeID"];
+  const { rows2 } = await pool.query(qstring);
+  const prodQuant = rows2[0]["quantity"];
   return [prodID, prodQuant];
 }
 
-async function getMaterialsFromBlueprintName(pool, name) {
-  const productID = await getTypeIdFromName(pool, name);
-  // figure out which table has blueprint material data
-
-  // query industryActivityMaterials for manufacturing reqs
+async function getMaterialsFromBlueprintName(name) {
+  const productID = await getTypeIdFromName(name);
   let qstring =
     'SELECT "materialTypeID", "quantity" ' +
     'FROM "industryActivityMaterials" ' +
     'WHERE "typeID" = ' +
     productID +
     ' AND "activityID" = 1'; // 1 is Manufacturing
-//   console.log(qstring);
-  const materials = await pool.query(qstring);
-  const dataObj = materials["rows"];
-  // want to add a name column, but need the lookup name from id func
-  for (const obj of dataObj) {
-    obj["name"] = await getNameFromTypeID(pool, obj["materialTypeID"]);
+  const { rows } = await pool.query(qstring);
+  // add a name field
+  for (const obj of rows) {
+    obj["name"] = await getNameFromTypeID(obj["materialTypeID"]);
   }
-  return dataObj;
+  return rows;
 }
 
 module.exports = {

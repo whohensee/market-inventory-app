@@ -5,8 +5,29 @@
 </head>
 <body>
   <h1><%= title %></h1>
-  <% for (const mat of mats) { %>
-    <p><%= mat.name %> <%= mat.quantity %></p>
-  <% } %>
+  <p class="material-list">
+    <% for (const mat of mats) { %>
+      <%= mat.name %> <%= mat.quantity %> <br>
+    <% } %>
+  </p>
+  <button type="button" class="copy" data-copy=".material-list">
+    <ion-icon name="copy-outline"></ion-icon> Copy
+  </button>
+
+  <script defer>
+    document.querySelectorAll(".copy").forEach(copyButton => {
+      copyButton.addEventListener("click", () => {
+        const targetElement = document.querySelector(copyButton.dataset.copy);
+        const textToCopy = targetElement.textContent
+          .replace(/[^\S\r\n]{2,}/g, "")
+          .replace(/[\r\n]{2,}/g, "\n")
+          .trim();
+          // .trim();
+        navigator.clipboard.writeText(textToCopy).then(() => {console.log("copied")});
+      })
+    })
+  </script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

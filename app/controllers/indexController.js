@@ -11,13 +11,9 @@ exports.indexGet = (req, res) => {
 };
 
 exports.materialsGet = async function (req, res) {
-  // have been sent the name of the blueprint
-  // need to call a function here that looks stuff up and
-  // returns the materials object I want
-  const val = await db.getTypeIdFromName("Rupture");
-  const materialObj = [{ name: val, quantity: val }];
+  const mats = await db.getMaterialsFromBlueprintName(req.query.bpname)
   res.render("janiceOutput", {
-    title: req.params.bpname + "Materials",
-    mats: materialObj,
+    title: req.query.bpname + " Materials",
+    mats: mats,
   });
 };

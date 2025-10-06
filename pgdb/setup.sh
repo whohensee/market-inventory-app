@@ -1,5 +1,6 @@
 #!/bin/bash
-createdb -U yaml -T template0 sde
+# Not needed as compose now points to sde db on creation
+# createdb -U yaml -T template0 sde
 
 # Must configure the name of this to match the manually downloaded
 # postgres dump from Fuzzworks (NOT the schema version)
