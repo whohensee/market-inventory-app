@@ -47,9 +47,19 @@ async function getMaterialsFromBlueprintName(name) {
   return rows;
 }
 
+async function getManufacturingTimeFromBPID(bpID) {
+  const qstring =
+    'SELECT time FROM "industryActivity" WHERE "activityID"=1 AND "typeID"=' +
+    bpID +
+    ";";
+  const { rows } = await pool.query(qstring);
+  return rows[0]["time"];
+}
+
 module.exports = {
   getTypeIdFromName,
   getNameFromTypeID,
   getProductIDFromBlueprintName,
   getMaterialsFromBlueprintName,
+  getManufacturingTimeFromBPID,
 };

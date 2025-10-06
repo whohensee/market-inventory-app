@@ -5,9 +5,10 @@
 </head>
 <body>
   <h1><%= title %></h1>
+  <p>time: <%= time %> hours</p>
   <p class="material-list">
     <% for (const mat of mats) { %>
-      <%= mat.name %> <%= mat.quantity %> <br>
+      <%= mat.name %> <%= mat.quantity * runs %> <br>
     <% } %>
   </p>
   <button type="button" class="copy" data-copy=".material-list">
@@ -22,7 +23,6 @@
           .replace(/[^\S\r\n]{2,}/g, "")
           .replace(/[\r\n]{2,}/g, "\n")
           .trim();
-          // .trim();
         navigator.clipboard.writeText(textToCopy).then(() => {console.log("copied")});
       })
     })

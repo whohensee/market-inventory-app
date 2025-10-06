@@ -11,9 +11,14 @@ exports.indexGet = (req, res) => {
 };
 
 exports.materialsGet = async function (req, res) {
-  const mats = await db.getMaterialsFromBlueprintName(req.query.bpname)
+  const mats = await db.getMaterialsFromBlueprintName(req.query.bpname);
+  const bpID = await db.getTypeIdFromName(req.query.bpname);
+  const manuTimeSeconds = await db.getManufacturingTimeFromBPID(bpID);
+  const manuTimeHours = Math.round((manuTimeSeconds / 3600) * 10) / 10;
   res.render("janiceOutput", {
     title: req.query.bpname + " Materials",
     mats: mats,
+    time: manuTimeHours * req.query.runs,
+    runs: req.query.runs
   });
 };
