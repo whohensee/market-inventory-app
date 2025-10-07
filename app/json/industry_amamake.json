@@ -1,0 +1,12 @@
+{
+  "material modifier": 0.99,
+  "time modifier": 0.7,
+  "reprocessing base": 0.59,
+  "reprocessing modifier": 0.76,
+  "system cost index": 0.08,
+  "system cost structure bonus": 0.05,
+  "system cost faction warfare bonus:": 0.3,
+  "facility tax": 0.01,
+  "SCC surcharge tax": 0.04,
+  "reprocessing tax": 0.03
+}
