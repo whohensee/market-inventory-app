@@ -8,7 +8,7 @@
   <p>time: <%= time %> hours</p>
   <p class="material-list">
     <% for (const mat of mats) { %>
-      <%= mat.name %> <%= mat.quantity * runs %> <br>
+      <%= mat.name %> <%= Math.round(mat.quantity * runs) %> <br>
     <% } %>
   </p>
   <button type="button" class="copy" data-copy=".material-list">

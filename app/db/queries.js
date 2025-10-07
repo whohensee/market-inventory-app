@@ -1,7 +1,10 @@
 const pool = require("./pool");
 
-// each function here needs to be modified to use the nice
-// { rows } syntax
+// The idea is any item-related query will start with getting
+// the typeID with getTypeIdFromName, then use the ID to
+// interact with future queries
+
+// so most functions should be getXFromId, not getXFromName
 
 async function getTypeIdFromName(name) {
   const qstring =
@@ -17,8 +20,9 @@ async function getNameFromTypeID(id) {
   return rows[0]["typeName"];
 }
 
-async function getProductIDFromBlueprintName(name) {
-  const bpID = await getTypeIdFromName(name);
+// ------------------- START get Product ID ---------------------
+
+async function getProductFromBlueprintTypeID(bpID) {
   const qstring =
     'SELECT "productTypeID", "quantity" FROM "industryActivityProducts"' +
     ' WHERE "typeID"=' +
@@ -31,13 +35,15 @@ async function getProductIDFromBlueprintName(name) {
   return [prodID, prodQuant];
 }
 
-async function getMaterialsFromBlueprintName(name) {
-  const productID = await getTypeIdFromName(name);
+// ------------------- END get Product ID ---------------------
+// ------------------- START get Materials From bpID ----------
+
+async function getMaterialsFromBlueprintID(bpID) {
   let qstring =
     'SELECT "materialTypeID", "quantity" ' +
     'FROM "industryActivityMaterials" ' +
     'WHERE "typeID" = ' +
-    productID +
+    bpID +
     ' AND "activityID" = 1'; // 1 is Manufacturing
   const { rows } = await pool.query(qstring);
   // add a name field
@@ -46,6 +52,9 @@ async function getMaterialsFromBlueprintName(name) {
   }
   return rows;
 }
+
+// ------------------- END get Materials From bpID ----------
+
 
 async function getManufacturingTimeFromBPID(bpID) {
   const qstring =
@@ -59,7 +68,7 @@ async function getManufacturingTimeFromBPID(bpID) {
 module.exports = {
   getTypeIdFromName,
   getNameFromTypeID,
-  getProductIDFromBlueprintName,
-  getMaterialsFromBlueprintName,
+  getProductFromBlueprintTypeID,
+  getMaterialsFromBlueprintID,
   getManufacturingTimeFromBPID,
 };
