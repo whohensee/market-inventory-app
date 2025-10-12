@@ -25,11 +25,14 @@ exports.materialsGet = async function (req, res) {
   const mats = await db.getMaterialsFromBlueprintID(bpID);
   const mats_modified = qmods.modifiedMaterialsList(mats, industryStats);
   const manuTimeSeconds = await db.getManufacturingTimeFromBPID(bpID);
-  const manuTimeHours = Math.round((manuTimeSeconds / 3600) * 10) / 10;
+  const manuTimeSeconds_mod = qmods.modifiedManufacturingTime(
+    manuTimeSeconds,
+    industryStats
+  );
   res.render("janiceOutput", {
     title: req.query.bpname + " Materials",
     mats: mats_modified,
-    time: manuTimeHours * req.query.runs,
+    time: Math.round(manuTimeSeconds_mod / 3600 * req.query.runs * 100) / 100,
     runs: req.query.runs,
   });
 };
